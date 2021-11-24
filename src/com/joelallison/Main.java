@@ -25,11 +25,13 @@ public class Main {
                 switch (choice) {
                     case "check":
                     case "Check":
-                        check(name);
+                        System.out.println("What number is your ticket?");
+                        int number = Integer.parseInt(bufferedReader.readLine());
+                        checkTicket(number);
                         break;
                     case "buy":
                     case "Buy":
-                        buy(name);
+                        buyTicket(name);
                         break;
                     case "quit":
                     case "Quit":
@@ -47,14 +49,25 @@ public class Main {
 
     }
 
-    public static void check(String name) {
-        //use HashMap<i>.contains("") for empty string
+    public static boolean checkTicket(int number) {
+        if (number <= 1){ return false; }
 
+        for (int i = 2; i < number; i++) {
+            if (number % i == 0){
+                return false;
+            }
+        }
+
+        return true;
     }
 
-    public static void buy(String name) {
+    public static void buyTicket(String name) {
         Random random = new Random();
-        tickets.put(random.nextInt(tickets.size()), name);
+        Integer chosenTicket = random.nextInt(tickets.size());
+        while(!(tickets.get(chosenTicket).equals(""))){
+            chosenTicket = random.nextInt(tickets.size());
+        }
+        tickets.put(chosenTicket, name);
     }
 
     private static HashMap<Integer, String> genTickets(int range) {
